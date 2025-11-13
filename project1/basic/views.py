@@ -34,11 +34,37 @@ def health(request):
 def addStudent(request):
     print(request.method)
     if request.method == "POST":
-        data = json.loads(request.body)
+        data=json.loads(request.body)
         student=StudentNew.objects.create(
-        name=data.get("name"), 
+            name=data.get('name'),
             age=data.get("age"),
             email=data.get("email")
-        )
-        return JsonResponse({"status":"success","id":student.id}, status=200)
-    return JsonResponse({"error": "use post method"}, status=400)
+            )
+        return JsonResponse({"status":"success", "id":student.id },status=200)
+
+    elif request.method=="GET":
+        print(request.method,"hello")
+        result=list(StudentNew.objects.values())
+        print(result)
+        return JsonResponse({"status":"ok","data":result},status=200)
+
+
+    elif request.method=="PUT":
+        data=json.loads(request.body)
+        ref_id=data.get("id") #getting id
+        new_email=data.get("email") #getting email
+        existing_student=StudentNew.objects.get(id=ref_id) #fetched the object as per the id
+        existing_student.email=new_email #updating with new email
+        existing_student.save()
+        updated_data=StudentNew.objects.filter(id=ref_id).values().first()        
+        return JsonResponse({"status":"data updated successfully","updated_data":updated_data},status=200)
+
+
+    elif request.method=="DELETE":
+        data=json.loads(request.body)
+        ref_id=data.get("id") #getting id
+        get_delting_data=StudentNew.objects.filter(id=ref_id).values().first()
+        to_be_delete=StudentNew.objects.get(id=ref_id)
+        to_be_delete.delete()
+        return JsonResponse({"status":"success","message":"student record deleted successfully","deleted data":get_delting_data},status=200)
+    return JsonResponse({"error":"use post method"},status=400)
