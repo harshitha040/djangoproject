@@ -3,8 +3,9 @@ from django.http  import HttpResponse
 from django.http import JsonResponse
 from django.db import connection
 import json
+
 from django.views.decorators.csrf import csrf_exempt
-from basic.models import StudentNew
+from basic.models import StudentNew ,Users
 
 # Create your views here.
 def sample(request):
@@ -68,3 +69,30 @@ def addStudent(request):
         to_be_delete.delete()
         return JsonResponse({"status":"success","message":"student record deleted successfully","deleted data":get_delting_data},status=200)
     return JsonResponse({"error":"use post method"},status=400)
+
+
+@csrf_exempt
+def signup(request):
+    return JsonResponse({
+        "status": "success",
+        "message": "User signup valid and processed"
+    })
+    
+    
+def job1(request):
+    return JsonResponse({"status": "success","message": "u have successfully applied to job1"},status=200)
+def job2(request):
+    return JsonResponse({"status": "success","message": "u have successfully applied to job2"},status=200)
+
+@csrf_exempt
+def signUp(request):
+    if request.method == "POST":
+       data=json.loads(request.body)
+       print(data)
+       return JsonResponse({"status":"success"},status=200)
+       user=Users.objects.create(
+            username=data.get('name'),
+            email=data.get("email"),
+            password=data.get("password")
+            )
+        
