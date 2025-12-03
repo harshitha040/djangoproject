@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'basic.middleware.MedicalFitMiddleware',
     'basic.middleware.AgeMiddleware',
     'basic.middleware.UsernameMiddleware',
+    'basic.middleware.EmailMiddleware',
 ]
 
 ROOT_URLCONF = 'project1.urls'

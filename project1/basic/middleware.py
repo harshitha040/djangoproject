@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import re , json
+from basic.models import Users
 
 class basicMiddleware():
     def __init__(self, get_response):
@@ -117,4 +118,25 @@ class UsernameMiddleware:
             # checks .. and __
             if '__' in username or '..' in username:
                 return JsonResponse({"error":"username should not contain .. or __"},status=400)
+        return self.get_response(request)
+    
+    
+    
+    
+class EmailMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+    def __call__(self, request):
+        if(request.path == "/signUp/"):
+            data = json.loads(request.body)
+            email = data.get("email", " ")
+            if email == " ":
+                return JsonResponse({"error": "email should not be empty"}, status=400)
+       # 2. Basic email pattern
+            pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+            if not re.match(pattern, email):
+                return JsonResponse({"error": " must have basic email pattern "}, status=400)
+            # 3. Duplicate email check
+            if Users.objects.filter(email=email).exists():
+                return JsonResponse({"error": "email already exists"}, status=400)
         return self.get_response(request)
