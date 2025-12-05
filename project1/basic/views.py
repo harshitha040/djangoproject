@@ -8,6 +8,8 @@ from basic.models import StudentNew ,Users
 from django.contrib.auth.hashers import make_password, check_password
 import jwt
 from django.conf import settings
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 # Create your views here.
 def sample(request):
@@ -107,11 +109,13 @@ def login(request):
         password=data.get("password")
         try:
             user=Users.objects.get(username=username) #checking user is available or not
+            issued_time=datetime.now(ZoneInfo("Asia/Kolkata"))
+            expired_time=issued_time + timedelta(minutes=30)
             if check_password(password,user.password):
                 # token="a json web token"
-                payload={"username":username,"email":user.email,"id":user.id}
-                token=jwt.encode(payload,settings.SECRET_KEY,algorithm="HS256")
-                return JsonResponse({"status":"success","message":"login successful","token":token},status=200)
+                payload={"username":username,"email":user.email,"id":user.id,"exp":expired_time}
+                token=jwt.encode(payload,settings.SECRET_KEY,algorithm="HS256",)
+                return JsonResponse({"status":"success","message":"login successful","token":token,"issued_at":issued_time,"expired_at":expired_time,"expires_in":int((expired_time-issued_time).total_seconds()/60)},status=200)
             else:
                 return JsonResponse({"status":"error","message":"invalid credentials"},status=400)
         except Users.DoesNotExist: 
