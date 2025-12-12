@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+          background-color: lightblue;
+          color:red;
+          border: 3px solid orange;
+          
+          padding: 25px;
+            
+        }
+        a{
+            text-decoration: none;    /* Remove underline */
+            background-color: yellow;
+            color:white;
+            padding: 10px;
+            font-size: 20px;
+            display: inline-block;    /* To apply margin properly */
+            /* margin-bottom: 30px;*/
+            position:relative;
+            margin-top:30px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <h1>Welcome to the About Us Page</h1>
+</body>
+</html>

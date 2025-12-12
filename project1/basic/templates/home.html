@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+          background-color: lightblue;
+          color:red;
+          border: 3px solid orange;
+          /* display: inline-block; */  /* To fit the border around the text only */
+          padding: 25px;
+          margin-top: 35px;
+            
+        }
+        a{
+            text-decoration: none;    /* Remove underline */
+            background-color: yellow;
+            color:white;
+            padding: 10px;
+            font-size: 20px;
+            display: inline-block; /* To apply margin properly */
+            /* margin-bottom: 30px;*/
+            position:relative;
+            top:30px;
+        }
+    </style>
+</head>
+<body>
+    
+    <a href="{% url 'about' %}">About Us</a>
+    <h1>Welcome to the Home Page</h1>
+</body>
+</html>
