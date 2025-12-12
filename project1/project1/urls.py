@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from basic.views import login,  signUp, sample, sampleInfo, dynamicResponse , health , addStudent , job1 ,job2 ,signup,check
-
+from basic.views import getAllusers
 
 
 
@@ -34,5 +34,6 @@ urlpatterns = [
     path("signUp/",signUp),
     path("check/",check),
     path("login/",login), 
+    path("users/",getAllusers),
     
 ]

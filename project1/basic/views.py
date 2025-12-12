@@ -92,7 +92,7 @@ def job2(request):
 def signUp(request):
     if request.method == "POST":
        data=json.loads(request.body)
-       print(data)       
+       print(data)   
        user=Users.objects.create(
             username=data.get("username"),
             email=data.get("email"),
@@ -107,10 +107,12 @@ def login(request):
         data=request.POST
         username=data.get("username")
         password=data.get("password")
+        print(username,password)
         try:
             user=Users.objects.get(username=username) #checking user is available or not
+            print(user)
             issued_time=datetime.now(ZoneInfo("Asia/Kolkata"))
-            expired_time=issued_time + timedelta(minutes=30)
+            expired_time=issued_time + timedelta(minutes=1)
             if check_password(password,user.password):
                 # token="a json web token"
                 payload={"username":username,"email":user.email,"id":user.id,"exp":expired_time}
@@ -133,7 +135,19 @@ def check(request):
     return JsonResponse({"status":"success","data":x},status=200)
 
 
-
+@csrf_exempt
+def getAllusers(request):
+    if request.method=="GET":
+        users=list(Users.objects.values())
+        print(request.token_data,"token in views") #accessing payload data in views using request()
+        print(request.token_data.get("username"),"username") #accessing username from payload data
+        print(users,"all users")
+        for user in users:
+            print(user['username'],"username from users list")
+            if user['username'] == request.token_data.get("username"):
+                return JsonResponse({"status":"success","login_user":request.token_data,"data":users},status=200)
+        else:
+            return JsonResponse({"error":"unauthorized access"},status=401)
         
 
 
