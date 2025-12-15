@@ -155,6 +155,8 @@ def home(request):
     return render(request,'home.html')
 def aboutus(request):
     return render(request,'aboutus.html')
+def welcome(request):
+    return render(request,'welcome.html')
         
 
 
