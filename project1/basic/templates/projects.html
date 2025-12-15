@@ -18,7 +18,9 @@
     </style>
 </head>
 <body>
-    <nav>
+    {% extends "welcome.html" %}
+    {% block content %}
+    {% comment %} <nav>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About Us</a></li>
@@ -27,8 +29,9 @@
             <li><a href="{% url 'projects' %}">Projects</a></li>
 
         </ul>
-    </nav>
+    </nav> {% endcomment %}
     <h1>welcome to projects page</h1>
+    {% endblock %}
 
 
 </body>
