@@ -157,6 +157,12 @@ def aboutus(request):
     return render(request,'aboutus.html')
 def welcome(request):
     return render(request,'welcome.html')
+def contact(request):
+    return render(request,'contact.html')
+def services(request):
+    return render(request,'services.html')
+def projects(request):
+    return render(request,'projects.html')
         
 
 
